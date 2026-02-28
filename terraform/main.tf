@@ -2,7 +2,7 @@ resource "databricks_job" "medallion_pipeline" {
   name = "medallion-prod-pipeline"
 
   ############################################################
-  # SCHEDULE (Daily midnight IST)
+  # Schedule (Daily midnight IST)
   ############################################################
   schedule {
     quartz_cron_expression = "0 0 0 * * ?"
@@ -10,7 +10,7 @@ resource "databricks_job" "medallion_pipeline" {
   }
 
   ############################################################
-  # BRONZE TASK
+  # Bronze Task
   ############################################################
   task {
     task_key = "bronze_task"
@@ -18,14 +18,10 @@ resource "databricks_job" "medallion_pipeline" {
     notebook_task {
       notebook_path = "/Shared/devops_demo/bronze_ingest"
     }
-
-    compute {
-      serverless {}
-    }
   }
 
   ############################################################
-  # SILVER TASK
+  # Silver Task
   ############################################################
   task {
     task_key = "silver_task"
@@ -37,14 +33,10 @@ resource "databricks_job" "medallion_pipeline" {
     notebook_task {
       notebook_path = "/Shared/devops_demo/silver_transform"
     }
-
-    compute {
-      serverless {}
-    }
   }
 
   ############################################################
-  # GOLD TASK
+  # Gold Task
   ############################################################
   task {
     task_key = "gold_task"
@@ -55,10 +47,6 @@ resource "databricks_job" "medallion_pipeline" {
 
     notebook_task {
       notebook_path = "/Shared/devops_demo/gold_aggregate"
-    }
-
-    compute {
-      serverless {}
     }
   }
 }

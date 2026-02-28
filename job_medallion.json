@@ -1,0 +1,29 @@
+{
+  "name": "medallion-prod-pipeline",
+  "tasks": [
+    {
+      "task_key": "bronze_task",
+      "notebook_task": {
+        "notebook_path": "/Shared/devops_demo/bronze_ingest"
+      }
+    },
+    {
+      "task_key": "silver_task",
+      "depends_on": [
+        { "task_key": "bronze_task" }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Shared/devops_demo/silver_transform"
+      }
+    },
+    {
+      "task_key": "gold_task",
+      "depends_on": [
+        { "task_key": "silver_task" }
+      ],
+      "notebook_task": {
+        "notebook_path": "/Shared/devops_demo/gold_aggregate"
+      }
+    }
+  ]
+}
