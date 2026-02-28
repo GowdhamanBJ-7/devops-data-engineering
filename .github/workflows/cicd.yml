@@ -44,4 +44,6 @@ jobs:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
         DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       run: |
-        databricks jobs create --json-file job_medallion.json
+        databricks jobs reset --job-id 841027682634122 --json-file job_medallion.json
+
+        
