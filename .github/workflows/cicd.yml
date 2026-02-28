@@ -39,9 +39,16 @@ jobs:
       run: |
         databricks workspace import_dir notebooks /Shared/devops_demo --overwrite
 
-    - name: Create Databricks Job (JSON)
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+
+    - name: Terraform Init
+      working-directory: terraform
+      run: terraform init
+
+    - name: Terraform Apply
+      working-directory: terraform
       env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      run: |
-        databricks jobs create --json-file job_medallion.json
+        TF_VAR_databricks_host: ${{ secrets.DATABRICKS_HOST }}
+        TF_VAR_databricks_token: ${{ secrets.DATABRICKS_TOKEN }}
+      run: terraform apply -auto-approve
