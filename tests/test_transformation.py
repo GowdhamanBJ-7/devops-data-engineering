@@ -1,8 +1,8 @@
 import pytest
 from pyspark.sql import SparkSession
 
-from notebooks.silver_transform import transform_silver
-from notebooks.gold_aggregate import transform_gold
+from notebooks.utils.silver import transform_silver
+from notebooks.utils.gold import transform_gold
 
 @pytest.fixture(scope="session")
 def spark():
