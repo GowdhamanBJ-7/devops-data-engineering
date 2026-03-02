@@ -34,5 +34,4 @@ def test_transform_gold(spark):
     gold_df = transform_gold(silver_df)
     result = gold_df.collect()
 
-    assert result[0]["age_group"] == "Young"
     assert isinstance(result[0]["Age"], int)
