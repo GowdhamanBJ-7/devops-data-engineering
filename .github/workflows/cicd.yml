@@ -1,14 +1,18 @@
 name: CI-CD Pipeline
 
+# Whenever someone pushes code to the main branch
+# GitHub automatically starts this pipeline
 on:
   push:
     branches:
       - main
-
+      
+#single job named build-test-deploy
+#Runs on a fresh Ubuntu virtual machine
 jobs:
   build-test-deploy:
     runs-on: ubuntu-latest
-
+    #Downloads your GitHub repo into the runner
     steps:
     - name: Checkout Repo
       uses: actions/checkout@v3
@@ -22,7 +26,7 @@ jobs:
       run: |
         pip install -r requirements.txt
         pip install pytest pyspark
-
+    #Executes pwd and returns the current folder path
     - name: Run Tests
       run: |
         export PYTHONPATH=$(pwd)
@@ -46,4 +50,16 @@ jobs:
       run: |
         databricks jobs reset --job-id 841027682634122 --json-file job_medallion.json
 
-        
+#Push to main
+#      ↓
+#GitHub Actions starts
+#     ↓
+#Install Python
+#      ↓
+#Install dependencies
+#      ↓
+#Run unit tests
+#      ↓
+#Deploy notebooks to Databricks
+#     ↓
+#Update Databricks Job using JSON
